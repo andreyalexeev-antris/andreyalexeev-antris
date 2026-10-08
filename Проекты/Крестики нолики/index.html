@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крестики нолики</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #04000c;
+            margin: 0;
+            overflow: hidden;
+            color: white;
+        }
+    
+        .b {
+            position: absolute;
+            height: 200px;
+            width: 200px;
+            background: none;
+            border: none;
+        }
+    
+        #move {
+            position: absolute;
+            font-size: 26px;
+            top: 85vh;
+            left: 45vw;
+            color: rgb(500, 100, 100)
+        }
+    
+        #blueMove {
+            display: none;
+        }
+    
+        #textWin {
+            position: absolute;
+            top: 8vh;
+        }
+        #winner {display: none;}
+        #blueWin {display: none; color: rgb(100, 100, 255);}
+        #redWin {display: none; color: rgb(255, 100, 100);}
+        #draw {display: none;color: rgb(100, 100, 100); font-size: 3vw;}
+    
+        #b1 {left: 658px;top: 175px;}
+        #b2 {left: 858px;top: 175px;}
+        #b3 {left: 1058px;top: 175px;}
+        #b4 {left: 658px;top: 375px;}
+        #b5 {left: 858px;top: 375px;}
+        #b6 {left: 1058px;top: 375px;}
+        #b7 {left: 658px;top: 575px;}
+        #b8 {left: 858px;top: 575px;}
+        #b9 {left: 1058px;top: 575px;}
+    
+        #end {
+            display: none;
+            position: absolute;
+            font-size: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100px;
+            width: 300px;
+            background-color: #0e0c13;
+            left: 800px;
+            top: 800px;
+            border-radius: 5px;
+            color: white;
+        }
+    
+        #end:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="textWin"><span id="draw">Ничья</span><spam id="winner">Победили</spam> <span id="redWin">крестики</span><span id="blueWin">нолики</span></h1>
+    <h1 id="move">Ход <span id="redMove">крестиков</span><span id="blueMove">ноликов</span></h1>
+    <button id="b1" class="b" onclick="setFigure(1)"></button>
+    <button id="b2" class="b" onclick="setFigure(2)"></button>
+    <button id="b3" class="b" onclick="setFigure(3)"></button>
+    <button id="b4" class="b" onclick="setFigure(4)"></button>
+    <button id="b5" class="b" onclick="setFigure(5)"></button>
+    <button id="b6" class="b" onclick="setFigure(6)"></button>
+    <button id="b7" class="b" onclick="setFigure(7)"></button>
+    <button id="b8" class="b" onclick="setFigure(8)"></button>
+    <button id="b9" class="b" onclick="setFigure(9)"></button>
+    <button id="end"onclick="setNum()">Заново</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script>
+        let num = null // Создание переменной для ячейки
+let color = true // Создание переменной для цвета
+let win = 0 // Создание переменной для победы
+const end = document.getElementById('end')
+const red = [] // Создание массива для знания где кресты
+const blue = [] // Создание массива для знания где круги
+const map = [] // Создание массива для знания заполнена ли карта
+const values = [1, 2, 3, 4, 5, 6, 7, 8, 9] // Значения для проверки ничье
+
+function setNum() { // Установка переменной для сброса
+    num = 10
+}
+
+function setFigure(value) { // Установка фигуры
+    if(red.includes(value) || blue.includes(value) || win != 0){ // Проверка на наличие фигуры в ячейке
+        return
+    } else{ // Выбранная ячейка пуста
+        if(color) { // Проверка на команду фигуры
+            red.push(value) // Сохранение места креста
+            map.push(value) // Сохранение фигуры в памяти
+        } else {
+            blue.push(value) // Сохранение места круга
+            map.push(value) // Сохранение фигуры в памяти
+        }
+        num = value; // Установить ячейку для фигуры
+        // Ничья
+        if(values.every(a => map.includes(a))){win = 9}
+        // Победы креста
+        if(red.includes(1) && red.includes(2) && red.includes(3)){win = 1}
+        if(red.includes(4) && red.includes(5) && red.includes(6)){win = 2}
+        if(red.includes(7) && red.includes(8) && red.includes(9)){win = 3}
+        if(red.includes(1) && red.includes(4) && red.includes(7)){win = 4}
+        if(red.includes(2) && red.includes(5) && red.includes(8)){win = 5}
+        if(red.includes(3) && red.includes(6) && red.includes(9)){win = 6}
+        if(red.includes(3) && red.includes(5) && red.includes(7)){win = 7}
+        if(red.includes(1) && red.includes(5) && red.includes(9)){win = 8}
+        // Победы круга
+        if(blue.includes(1) && blue.includes(2) && blue.includes(3)){win = 1}
+        if(blue.includes(4) && blue.includes(5) && blue.includes(6)){win = 2}
+        if(blue.includes(7) && blue.includes(8) && blue.includes(9)){win = 3}
+        if(blue.includes(1) && blue.includes(4) && blue.includes(7)){win = 4}
+        if(blue.includes(2) && blue.includes(5) && blue.includes(8)){win = 5}
+        if(blue.includes(3) && blue.includes(6) && blue.includes(9)){win = 6}
+        if(blue.includes(3) && blue.includes(5) && blue.includes(7)){win = 7}
+        if(blue.includes(1) && blue.includes(5) && blue.includes(9)){win = 8}
+        color = !color // Команда меняется
+        if(win != 0){
+            if(color){
+                delWin = 1
+                textWin.style.left = '42.6vw'
+                textWin.style.display = 'inline'
+                winner.style.display = 'inline'
+                blueWin.style.display = 'inline'
+            } else if(win != 9){
+                delWin = 0
+                textWin.style.left = '41.5vw'
+                textWin.style.display = 'inline'
+                winner.style.display = 'inline'
+                redWin.style.display = 'inline'
+            } else{
+
+            }
+        } else{ // Указание чей сейчас ход
+            if(color){ // Ход креста
+                move.style.color = 'rgb(255, 100, 100)'
+                move.style.left = '45vw'
+                redMove.style.display = 'inline'
+                blueMove.style.display = 'none'
+            } else{ // Ход круга
+                move.style.color = 'rgb(100, 100, 255)'
+                move.style.left = '45.5vw'
+                redMove.style.display = 'none'
+                blueMove.style.display = 'inline'
+            }
+        }
+        }
+    if(win != 0 ){end.style.display = 'inline'} // Рестарт
+}
+
+function setup() { // Создание сцены
+    createCanvas(windowWidth, windowHeight); 
+}
+
+function draw() { // Рисование
+    if(num == 10){ // Сброс
+        num = null
+        color = true
+        win = 0
+        red.length = 0
+        blue.length = 0
+        map.length = 0
+        end.style.display = 'none'
+        winner.style.display = 'none'
+        move.style.color = 'rgb(255, 100, 100)'
+        move.style.left = '45vw'
+        redMove.style.display = 'inline'
+        blueMove.style.display = 'none'
+        clear()
+        if(delWin == 0){
+            redWin.style.display = 'none'
+        } else{
+            blueWin.style.display = 'none'
+        }
+    }
+    else{ // Создание
+        noFill() // Без заливки
+        stroke(100, 200, 200) // Цвет линий
+        strokeWeight(7) // Толщина линий
+        rect(658, 175, 600, 600) // Большой толстый прямоугольник
+        rect(658, 375, 600, 200) // Горизонтальный толстый прямоугольник
+        rect(858, 175, 200, 600) // Вертикальный толстый прямоугольник
+        stroke(0, 0, 0) // Цвет линий
+        strokeWeight(5) // Толщина линий
+        rect(658, 175, 600, 600) // Большой прямоугольник
+        rect(658, 375, 600, 200) // Горизонтальный прямоугольник
+        rect(858, 175, 200, 600) // Вертикальный прямоугольник
+        strokeWeight(2) // Толщина фигур
+        // Проверка на команду фигуры
+        if(color){ // Круги
+            stroke(100, 100, 255) // Цвет кругов
+            if(num == 1) {circle(760, 276, 170)} // Круг 1 строка 1
+            if(num == 2) {circle(960, 276, 170)} // Круг 2 строка 1
+            if(num == 3) {circle(1160, 276, 170)} // Круг 3 строка 1
+            if(num == 4) {circle(760, 476, 170)} // Круг 1 строка 2
+            if(num == 5) {circle(960, 476, 170)} // Круг 2 строка 2
+            if(num == 6) {circle(1160, 476, 170)} // Круг 3 строка 2
+            if(num == 7) {circle(760, 676, 170)} // Круг 1 строка 3
+            if(num == 8) {circle(960, 676, 170)} // Круг 2 строка 3
+            if(num == 9) {circle(1160, 676, 170)} // Круг 3 строка 3
+        }
+        else { // Кресты
+            stroke(255, 100, 100) // Цвет крестов
+            if(num == 1) {line(674, 191, 842, 359); line(842, 191, 674, 359)} // Крест 1 Строка 1
+            if(num == 2) {line(874, 191, 1042, 359); line(1042, 191, 874, 359)} // Крест 2 Строка 1
+            if(num == 3) {line(1074, 191, 1242, 359); line(1242, 191, 1074, 359)} // Крест 3 Строка 1
+            if(num == 4) {line(674, 391, 842, 559); line(842, 391, 674, 559)} // Крест 1 Строка 2
+            if(num == 5) {line(874, 391, 1042, 559); line(1042, 391, 874, 559)} // Крест 2 Строка 2
+            if(num == 6) {line(1074, 391, 1242, 559); line(1242, 391, 1074, 559)} // Крест 3 Строка 2
+            if(num == 7) {line(674, 591, 842, 759); line(842, 591, 674, 759)} // Крест 1 Строка 3
+            if(num == 8) {line(874, 591, 1042, 759); line(1042, 591, 874, 759)} // Крест 2 Строка 3
+            if(num == 9) {line(1074, 591, 1242, 759); line(1242, 591, 1074, 759)} // Крест 3 Строка 3
+        }
+        strokeWeight(10) // Толщина линий побед
+        // Победы
+        if(win == 1){line(674, 275, 1242, 275)} // Победа 1-2-3 горизонталь
+        if(win == 2){line(674, 475, 1242, 475)} // Победа 4-5-6 горизонталь
+        if(win == 3){line(674, 674, 1242, 674)} // Победа 7-8-9 горизонталь
+        if(win == 4){line(758, 191, 758, 760)} // Победа 1-4-7 вертикаль
+        if(win == 5){line(958, 191, 958, 760)} // Победа 2-5-8 вертикаль
+        if(win == 6){line(1158, 191, 1158, 760)} // Победы 3-6-9 вертикаль
+        if(win == 7){line(1242, 191, 674, 759)} // Победа 3-5-7 диагональ
+        if(win == 8){line(674, 191, 1242, 759)} // Победа 1-5-9 диагональ
+    }
+}
+    </script>
+</body>
+</html>

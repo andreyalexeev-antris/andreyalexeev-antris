@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div id="calculator">
+        <input id="input" type="number" onkeypress="validate(event)"><br>
+        <button class='orange' onclick="addValue(this)" value="%">C</button><button id='delete' class='orange' onclick='deleteNumberButton()'>←</button><button class='orange' onclick="percent()">%</button><button class='orange' onclick="storeNumberDiv()">÷</button>
+        <button onclick="addValue(this)"value="7">7</button><button onclick="addValue(this)"value="8">8</button><button onclick="addValue(this)"value="9">9</button><button class='orange' onclick="storeNumberPro()">×</button>
+        <button onclick="addValue(this)"value="4">4</button><button onclick="addValue(this)"value="5">5</button><button onclick="addValue(this)"value="6">6</button><button class='orange' onclick="storeNumberDif()">-</button>
+        <button onclick="addValue(this)"value="1">1</button><button onclick="addValue(this)"value="2">2</button><button onclick="addValue(this)"value="3">3</button><button class='orange' onclick="storeNumberSum()">+</button>
+        <button onclick="inverse()">-/+</button><button onclick="addValue(this)"value="0">0</button><button onclick="">,</button><button id="oorange" onclick="sumNumbers()">=</button>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
